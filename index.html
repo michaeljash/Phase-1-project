@@ -6,47 +6,113 @@
     <title>DOG BREEDS</title>
     <link rel="stylesheet" href="index.css">
 </head>
-<body style="background-color: grey;">
+<body style="background-color: grey; background-image: https://source.unsplash.com/featured/?small,dogs
+;">
     <h1>Dog Breeds</h1>
     <div class="container">
-        <form action="" class="search-bar" id="bar">
-            <input type="text" placeholder="search breed" name="q">
+        <form action="" class="search-bar" id="searchForm">
+            <input type="text" placeholder="search breed" name="q" id="searchInput">
             <button type="submit">Search</button>
         </form>
     </div>
 
-    <div class="flex-container">
+    <div class="flex-container" id="breedsContainer">
         <div class="flex-box">
             <h2>GERMAN SHEPHERD</h2>
-            <img src="" id="germanShepherdImage">
+            <img src="https://source.unsplash.com/featured/?german-shepherd" id="germanShepherdImage">
             <p>Generally considered dogkind's finest all-purpose worker, the German Shepherd Dog is a large, agile, muscular dog of noble character and high intelligence.</p>
         </div>
         <div class="flex-box">
             <button style="background-color: gray; border-radius: 20px;">Like</button>
             <button style="background-color: grey; border-radius: 20px;">Dislike</button>
             <h2>BULLDOG</h2>
-            <img src="" id="bulldogImage">
+            <img src="https://source.unsplash.com/featured/?bulldog" id="bulldogImage">
             <p>The Bulldog is a British breed of dog of mastiff type. It may also be known as the English Bulldog or British Bulldog.</p>
         </div>
         <div class="flex-box">
             <button style="background-color: gray; border-radius: 20px;">Like</button>
             <button style="background-color: grey; border-radius: 20px;">Dislike</button>
             <h2>LABRADOR RETRIEVOR</h2>
-            <img src="" id="labradorImage">
+            <img src="https://source.unsplash.com/featured/?labrador-retriever" id="labradorImage">
             <p>The sweet-faced, lovable Labrador Retriever is one of America's most popular dog breeds, year after year. </p>
         </div>
         <div class="flex-box">
             <button style="background-color: gray; border-radius: 20px;">Like</button>
             <button style="background-color: grey; border-radius: 20px;">Dislike</button>
             <h2>Chihuahua</h2>
-            <img src="" id="chihuahuaImage">
+            <img src="https://source.unsplash.com/featured/?chihuahua" id="chihuahuaImage">
             <button style="background-color: gray; border-radius: 20px;">Like</button>
             <button style="background-color: grey; border-radius: 20px;">Dislike</button>
             <p>The Chihuahua is a balanced, graceful dog of terrier-like demeanor, weighing no more than 6 pounds. </p>
         </div>
-        <!-- Add more flex-box divs for other breeds -->
     </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Function to fetch dog images from Dog CEO API
+            function fetchDogImage(breed, imageId, breedName) {
+                const dogImage = document.getElementById(imageId);
+                const errorMessage = `Failed to load image for ${breedName}`;
 
+                fetch(`https://dog.ceo/api/breed/${breed}/images/random`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(errorMessage);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        dogImage.src = data.message;
+                        dogImage.alt = breedName;
+                    })
+                    .catch(error => {
+                        console.error(error);
+                        dogImage.src = 'placeholder.jpg'; 
+                        dogImage.alt = breedName;
+                    });
+            }
+
+            // Function to display breed information
+            function displayBreedInfo(breedName, breedDescription) {
+                const breedsContainer = document.getElementById('breedsContainer');
+                const breedDiv = document.createElement('div');
+                breedDiv.classList.add('flex-box');
+                breedDiv.innerHTML = `
+                    <h2>${breedName}</h2>
+                    <p>${breedDescription}</p>
+                    <img src="" id="${breedName.toLowerCase()}Image">
+                `;
+                breedsContainer.appendChild(breedDiv);
+
+                // Fetch image for the breed
+                fetchDogImage(breedName.toLowerCase(), `${breedName.toLowerCase()}Image`, breedName);
+            }
+
+            // Get the search form and input element
+            const searchForm = document.getElementById('searchForm');
+
+            // Add event listener to the form submission
+            searchForm.addEventListener('submit', function(event) {
+                // Prevent the default form submission behavior
+                event.preventDefault();
+
+                // Extract the search term from the input field
+                const searchInput = document.getElementById('searchInput');
+                const searchTerm = searchInput.value.trim();
+
+                // Check if search term is not empty
+                if (searchTerm !== '') {
+                    // Clear existing breeds
+                    const breedsContainer = document.getElementById('breedsContainer');
+                    breedsContainer.innerHTML = '';
+
+                    // Display breed information based on the search term
+                    displayBreedInfo(searchTerm, "Description will be available once we fetch it from API.");
+                } else {
+                    console.log('Please enter a search term');
+                }
+            });
+        });
+    </script>
     <script src="index.js"></script>
 </body>
 </html>

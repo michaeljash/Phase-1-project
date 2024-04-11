@@ -32,7 +32,6 @@ document.addEventListener("DOMContentLoaded", function() {
 document.addEventListener("DOMContentLoaded", function() {
     const breedsContainer = document.getElementById('breedsContainer');
 
-    // Function to create a breed element with image, like, and dislike buttons
     function createBreedElement(breedName, imageUrl) {
         const breedDiv = document.createElement('div');
         breedDiv.classList.add('flex-box');
@@ -46,7 +45,6 @@ document.addEventListener("DOMContentLoaded", function() {
         return breedDiv;
     }
 
-    // Add event listeners to dynamically added like buttons
     breedsContainer.addEventListener('click', function(event) {
         const target = event.target;
         if (target.classList.contains('like-button') || target.classList.contains('dislike-button')) {
@@ -61,7 +59,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-    // Function to fetch dog images from Dog CEO API
+
     function fetchDogImage(breedName) {
         return fetch(`https://dog.ceo/api/breed/${breedName}/images/random`)
             .then(response => {
@@ -73,16 +71,14 @@ document.addEventListener("DOMContentLoaded", function() {
             .then(data => data.message)
             .catch(error => {
                 console.error('Error fetching dog image:', error);
-                return 'placeholder.jpg'; // Use a placeholder image in case of error
+                return 'placeholder.jpg'; 
             });
     }
 
-    // Function to display breed information
     function displayBreedInfo(breedName, breedDescription) {
         const breedDiv = createBreedElement(breedName, '');
         breedsContainer.appendChild(breedDiv);
 
-        // Fetch image for the breed
         fetchDogImage(breedName)
             .then(imageUrl => {
                 const imgElement = breedDiv.querySelector('img');
@@ -92,15 +88,12 @@ document.addEventListener("DOMContentLoaded", function() {
             .catch(error => console.error('Error displaying breed info:', error));
     }
 
-    // Get the search form and input element
     const searchForm = document.getElementById('searchForm');
 
-    // Add event listener to the form submission
     searchForm.addEventListener('submit', function(event) {
-        // Prevent the default form submission behavior
+
         event.preventDefault();
 
-        // Extract the search term from the input field
         const searchInput = document.getElementById('searchInput');
         const searchTerm = searchInput.value.trim();
 

@@ -1,4 +1,4 @@
-# (Phase-1-project)
+# Dogbreed Searchengine
 
 #### Date, 2024/04/11
 
@@ -20,7 +20,7 @@ Git clone https://github.com/michaeljash/Phase-1-project.git
 ```
 
 # Live Link
-[Git](gh-pages link)
+https://michaeljash.github.io/Phase-1-project/
 
 ## Technologies used
 HTML

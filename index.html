@@ -95,7 +95,6 @@
                     });
             }
 
-            // Function to display breed information
             function displayBreedInfo(breedName, breedDescription) {
                 const breedsContainer = document.getElementById('breedsContainer');
                 const breedDiv = document.createElement('div');
@@ -107,29 +106,23 @@
                 `;
                 breedsContainer.appendChild(breedDiv);
 
-                // Fetch image for the breed
                 fetchDogImage(breedName.toLowerCase(), `${breedName.toLowerCase()}Image`, breedName);
             }
 
-            // Get the search form and input element
             const searchForm = document.getElementById('searchForm');
 
-            // Add event listener to the form submission
             searchForm.addEventListener('submit', function(event) {
-                // Prevent the default form submission behavior
                 event.preventDefault();
 
-                // Extract the search term from the input field
                 const searchInput = document.getElementById('searchInput');
                 const searchTerm = searchInput.value.trim();
 
-                // Check if search term is not empty
                 if (searchTerm !== '') {
-                    // Clear existing breeds
+        
                     const breedsContainer = document.getElementById('breedsContainer');
                     breedsContainer.innerHTML = '';
 
-                    // Display breed information based on the search term
+                    
                     displayBreedInfo(searchTerm, "Description will be available once we fetch it from API.");
                 } else {
                     console.log('Please enter a search term');

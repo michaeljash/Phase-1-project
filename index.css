@@ -3,6 +3,12 @@
     max-height: 700px;
 }
 
+.flex-box button:hover{
+    color: #333;
+    
+
+}
+
 /* Body styles */
 body {
     font-family: Arial, sans-serif;

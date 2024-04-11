@@ -24,6 +24,30 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 
+const searchForm = document.getElementById('searchForm');
+
+    // Add event listener to the form submission
+    searchForm.addEventListener('submit', function(event) {
+        // Prevent the default form submission behavior
+        event.preventDefault();
+
+        // Get the search query from the input field
+        const searchInput = document.querySelector('input[name="q"]');
+        const searchTerm = searchInput.value.trim();
+
+        // Check if search term is not empty
+        if (searchTerm !== '') {
+            // Fetch images for the searched breed
+            const breed = searchTerm.toLowerCase();
+            const imageId = `${breed}Image`;
+            const breedName = searchTerm.charAt(0).toUpperCase() + searchTerm.slice(1);
+            fetchDogImage(breed, imageId, breedName);
+        } else {
+            console.log('Please enter a search term');
+        }
+    });
+});
+
 
 
     

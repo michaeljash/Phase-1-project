@@ -1,43 +1,45 @@
 document.addEventListener("DOMContentLoaded", function() {
-    // Define an array of objects containing breed names and image elements
     const breeds = [
-        { name: "germanshepherd", imageId: "germanShepherdImage" },
-        { name: "bulldog", imageId: "bulldogImage" },
-        { name: "labrador", imageId: "labradorImage" },
-        { name: "chihuahua", imageId: "chihuahuaImage" }
+        { name: "germanshepherd", imageId: "germanShepherdImage", breedName: "German Shepherd" },
+        { name: "bulldog", imageId: "bulldogImage", breedName: "Bulldog" },
+        { name: "labrador", imageId: "labradorImage", breedName: "Labrador" },
+        { name: "chihuahua", imageId: "chihuahuaImage", breedName: "Chihuahua" }
         // Add more breeds as needed
     ];
 
-    // Fetch images for each breed
-    breeds.forEach(breed => fetchDogImage(breed.name, breed.imageId));
+    breeds.forEach(breed => fetchDogImage(breed.name, breed.imageId, breed.breedName));
 
-    // Function to fetch dog images from Dog CEO API
-    function fetchDogImage(breed, imageId) {
+    function fetchDogImage(breed, imageId, breedName) {
+        const dogImage = document.getElementById(imageId);
+        const errorMessage = `Failed to load image for ${breedName}`;
+
         fetch(`https://dog.ceo/api/breed/${breed}/images/random`)
-            .then(response => response.json())
-            .then(data => {
-                const dogImage = document.getElementById(imageId);
-                dogImage.src = data.message;
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(errorMessage);
+                }
+                return response.json();
             })
-            .catch(error => console.error('Error fetching dog image:', error));
+            .then(data => {
+                dogImage.src = data.message;
+                dogImage.alt = breedName;
+            })
+            .catch(error => {
+                console.error(error);
+                dogImage.src = 'placeholder.jpg'; // Use a placeholder image or show an error message
+                dogImage.alt = breedName;
+            });
     }
-});
 
+    
+    const searchForm = document.getElementById('searchForm');
 
-const searchForm = document.getElementById('searchForm');
-
-    // Add event listener to the form submission
     searchForm.addEventListener('submit', function(event) {
-        // Prevent the default form submission behavior
         event.preventDefault();
-
-        // Get the search query from the input field
         const searchInput = document.querySelector('input[name="q"]');
         const searchTerm = searchInput.value.trim();
 
-        // Check if search term is not empty
         if (searchTerm !== '') {
-            // Fetch images for the searched breed
             const breed = searchTerm.toLowerCase();
             const imageId = `${breed}Image`;
             const breedName = searchTerm.charAt(0).toUpperCase() + searchTerm.slice(1);
@@ -47,6 +49,8 @@ const searchForm = document.getElementById('searchForm');
         }
     });
 });
+
+
 
 
 
